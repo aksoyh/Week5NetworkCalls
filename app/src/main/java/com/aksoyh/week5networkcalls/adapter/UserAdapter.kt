@@ -32,4 +32,11 @@ class UserAdapter(private val users: ArrayList<User>): RecyclerView.Adapter<User
     }
 
     override fun getItemCount(): Int = users.size
+
+    fun addUsers(users: List<User>) {
+        this.users.apply {
+            clear()
+            addAll(users)
+        }
+    }
 }
