@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setupViewModel()
-        setupUI()
         setupObservers()
     }
 
@@ -39,15 +38,9 @@ class MainActivity : AppCompatActivity() {
         ).get(MainViewModel::class.java)
     }
 
-    private fun setupUI() {
+    private fun setupUI(users: List<User>) {
         ac_main_rv_users.layoutManager = LinearLayoutManager(this@MainActivity)
-        userAdapter = UserAdapter(arrayListOf())
-        ac_main_rv_users.addItemDecoration(
-                DividerItemDecoration(
-                        ac_main_rv_users.context,
-                        (ac_main_rv_users.layoutManager as LinearLayoutManager).orientation
-                )
-        )
+        userAdapter = UserAdapter(users as ArrayList<User>)
         ac_main_rv_users.adapter = userAdapter
     }
 
@@ -58,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                     SUCCESS -> {
                         ac_main_rv_users.visibility = View.VISIBLE
                         ac_main_pb.visibility = View.GONE
-                        resource.data?.let { users -> setDataToAdapter(users) }
+                        resource.data?.let { users -> setupUI(users) }
                     }
                     ERROR -> {
                         ac_main_rv_users.visibility = View.VISIBLE
@@ -66,18 +59,11 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this@MainActivity, it.message, Toast.LENGTH_LONG).show()
                     }
                     LOADING -> {
-                        ac_main_rv_users.visibility = View.VISIBLE
+                        ac_main_rv_users.visibility = View.GONE
                         ac_main_pb.visibility = View.VISIBLE
                     }
                 }
             }
         })
-    }
-
-    private fun setDataToAdapter(users: List<User>) {
-        userAdapter.apply {
-            addUsers(users)
-            notifyDataSetChanged()
-        }
     }
 }
