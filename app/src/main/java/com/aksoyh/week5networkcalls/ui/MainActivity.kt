@@ -53,12 +53,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupObservers() {
         mainViewModel.getUsers().observe(this@MainActivity, {
-            it?.let { resourse ->
-                when (resourse.status) {
+            it?.let { resource ->
+                when (resource.status) {
                     SUCCESS -> {
                         ac_main_rv_users.visibility = View.VISIBLE
                         ac_main_pb.visibility = View.GONE
-                        resourse.data?.let { users -> setDataToAdapter(users) }
+                        resource.data?.let { users -> setDataToAdapter(users) }
                     }
                     ERROR -> {
                         ac_main_rv_users.visibility = View.VISIBLE
@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity() {
     private fun setDataToAdapter(users: List<User>) {
         userAdapter.apply {
             addUsers(users)
+            notifyDataSetChanged()
         }
     }
 }
