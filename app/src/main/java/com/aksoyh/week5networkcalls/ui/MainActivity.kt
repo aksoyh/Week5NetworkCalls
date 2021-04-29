@@ -3,67 +3,55 @@ package com.aksoyh.week5networkcalls.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aksoyh.week5networkcalls.R
 import com.aksoyh.week5networkcalls.adapter.UserAdapter
-import com.aksoyh.week5networkcalls.data.api.ApiHelper
-import com.aksoyh.week5networkcalls.data.api.RetrofitBuilder
 import com.aksoyh.week5networkcalls.data.model.User
-import com.aksoyh.week5networkcalls.ui.base.ViewModelFactory
+import com.aksoyh.week5networkcalls.data.repository.MainRepository
+import com.aksoyh.week5networkcalls.ui.base.MainViewModelProviderFactory
 import com.aksoyh.week5networkcalls.ui.vm.MainViewModel
 import com.aksoyh.week5networkcalls.utils.Status.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var userAdapter: UserAdapter
-
-    private lateinit var mainViewModel: MainViewModel
+    lateinit var navController: NavController
+    lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(ac_ma_toolbar)
+        this.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
-        setupViewModel()
-        setupObservers()
+        navController = Navigation.findNavController(this, R.id.ac_ma_nav_host_fragment)
+        NavigationUI.setupActionBarWithNavController(this, navController)
+
+        val mainRepository = MainRepository()
+        val viewModelProviderFactory = MainViewModelProviderFactory(application, mainRepository)
+        mainViewModel = ViewModelProvider(this, viewModelProviderFactory).get(MainViewModel::class.java)
     }
 
-    private fun setupViewModel() {
-        mainViewModel = ViewModelProviders.of(
-                this,
-                ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
-        ).get(MainViewModel::class.java)
+    override fun onSupportNavigateUp(): Boolean {
+        return Navigation.findNavController(this, R.id.ac_ma_nav_host_fragment).navigateUp() || super.onSupportNavigateUp()
     }
 
-    private fun setupUI(users: List<User>) {
-        ac_main_rv_users.layoutManager = LinearLayoutManager(this@MainActivity)
-        userAdapter = UserAdapter(users as ArrayList<User>)
-        ac_main_rv_users.adapter = userAdapter
+    fun showLoading(){
+        window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        ac_main_pb.visibility = View.VISIBLE
     }
 
-    private fun setupObservers() {
-        mainViewModel.getUsers().observe(this@MainActivity, {
-            it?.let { resource ->
-                when (resource.status) {
-                    SUCCESS -> {
-                        ac_main_rv_users.visibility = View.VISIBLE
-                        ac_main_pb.visibility = View.GONE
-                        resource.data?.let { users -> setupUI(users) }
-                    }
-                    ERROR -> {
-                        ac_main_rv_users.visibility = View.VISIBLE
-                        ac_main_pb.visibility = View.GONE
-                        Toast.makeText(this@MainActivity, it.message, Toast.LENGTH_LONG).show()
-                    }
-                    LOADING -> {
-                        ac_main_rv_users.visibility = View.GONE
-                        ac_main_pb.visibility = View.VISIBLE
-                    }
-                }
-            }
-        })
+    fun hideLoading(){
+        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        ac_main_pb.visibility = View.GONE
     }
+
+
+
 }
