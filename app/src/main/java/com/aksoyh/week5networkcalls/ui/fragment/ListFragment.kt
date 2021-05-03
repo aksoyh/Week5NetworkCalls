@@ -31,7 +31,6 @@ class ListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -45,6 +44,9 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).mainViewModel
+
+        rvUsers = view.findViewById(R.id.fr_list_rv_users)
+        setupRecyclerView()
 
         //(requireActivity() as MainActivity).showLoading()
         navController = Navigation.findNavController(requireActivity(), R.id.ac_ma_nav_host_fragment)
@@ -67,10 +69,10 @@ class ListFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     (requireActivity() as MainActivity).hideLoading()
-                    response.data?.let {
-                        if (it != null) {
+                    response.data?.let { userResponse ->
+                        if (userResponse != null) {
                             // TODO: Veriler adapter içine set edilir.
-                            userAdapter.
+                            userAdapter.differ.submitList(userResponse.toList())
                         } else {
                             // Data gelmedi ekranı göster
                         }
@@ -81,6 +83,25 @@ class ListFragment : Fragment() {
             response.message = null
         })
 
+        //userAdapter.setUserItemClickListener {
+        //    val bundle = Bundle().apply {
+        //        putSerializable("userItemDetail", it)
+        //    }
+        //    navController.navigate(
+        //            R.id.action_listFragment_to_detailFragment,
+        //            bundle
+        //    )
+        //}
+
+    }
+
+    private fun setupRecyclerView() {
+        userAdapter = UserAdapter()
+        rvUsers.apply {
+            adapter = userAdapter
+            layoutManager = LinearLayoutManager(activity)
+            viewModel.getUser()
+        }
     }
 
 /*

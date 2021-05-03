@@ -18,9 +18,9 @@ class MainViewModel(app: Application,
                     private val mainRepository: MainRepository): AndroidViewModel(app) {
 
     // Resource
-    val userRes: MutableLiveData<Resource<User>> = MutableLiveData()
+    val userRes: MutableLiveData<Resource<MutableList<User>>> = MutableLiveData()
     // Response
-    val userResponse: User? = null
+    var userResponse: MutableList<User>? = null
 
     fun getUser() = viewModelScope.launch {
         safeGetUserCall()
@@ -40,7 +40,7 @@ class MainViewModel(app: Application,
         }
     }
 
-    private fun handleGetUserResponse(response: Response<User>): Resource<User> {
+    private fun handleGetUserResponse(response: Response<MutableList<User>>): Resource<MutableList<User>> {
         if (response.isSuccessful) {
             response.body()?.let { users ->
                 return Resource.Success(userResponse ?: users)

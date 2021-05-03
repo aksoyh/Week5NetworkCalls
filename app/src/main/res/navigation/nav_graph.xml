@@ -18,5 +18,9 @@
         android:id="@+id/detailFragment"
         android:name="com.aksoyh.week5networkcalls.ui.fragment.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="userItemDetail"
+            app:argType="com.aksoyh.week5networkcalls.data.model.User"/>
+    </fragment>
 </navigation>
