@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="com.aksoyh.week5networkcalls.ui.fragment.ListFragment"
-        android:label="fragment_list"
+        android:label="ListFragment"
         tools:layout="@layout/fragment_list" >
         <action
             android:id="@+id/action_listFragment_to_detailFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.aksoyh.week5networkcalls.ui.fragment.DetailFragment"
-        android:label="fragment_detail"
+        android:label="DetailFragment"
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="userItemDetail"

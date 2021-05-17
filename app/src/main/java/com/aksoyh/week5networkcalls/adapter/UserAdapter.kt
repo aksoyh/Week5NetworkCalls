@@ -58,21 +58,4 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     fun setUserItemClickListener(itemClickListener: ((User) -> Unit)) {
         onItemClickListener = itemClickListener
     }
-
-    /* Bizim listemize örnek
-    {
-        {
-            "avatar": "https://www.arel.edu.tr/logo",
-            "email": "hasanaksoy@arel.edu.tr",
-            "id": "432453452342",
-            "name": "Hasan AKSOY"
-        },
-        {
-            "avatar": "https://www.arel.edu.tr/image",
-            "email": "mehmetg@arel.edu.tr",
-            "id": "332423442",
-            "name": "Mehmet Gül"
-        }
-    }
-     */
 }

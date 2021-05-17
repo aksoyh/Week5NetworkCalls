@@ -29,10 +29,6 @@ class ListFragment : Fragment() {
     private lateinit var userAdapter: UserAdapter
     private lateinit var rvUsers: RecyclerView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,7 +44,6 @@ class ListFragment : Fragment() {
         rvUsers = view.findViewById(R.id.fr_list_rv_users)
         setupRecyclerView()
 
-        //(requireActivity() as MainActivity).showLoading()
         navController = Navigation.findNavController(requireActivity(), R.id.ac_ma_nav_host_fragment)
 
         rvUsers = view.findViewById(R.id.fr_list_rv_users)
@@ -71,7 +66,7 @@ class ListFragment : Fragment() {
                     (requireActivity() as MainActivity).hideLoading()
                     response.data?.let { userResponse ->
                         if (userResponse != null) {
-                            // TODO: Veriler adapter içine set edilir.
+                            // Veriler adapter içine set edilir.
                             userAdapter.differ.submitList(userResponse.toList())
                         } else {
                             // Data gelmedi ekranı göster
@@ -83,16 +78,15 @@ class ListFragment : Fragment() {
             response.message = null
         })
 
-        //userAdapter.setUserItemClickListener {
-        //    val bundle = Bundle().apply {
-        //        putSerializable("userItemDetail", it)
-        //    }
-        //    navController.navigate(
-        //            R.id.action_listFragment_to_detailFragment,
-        //            bundle
-        //    )
-        //}
-
+        userAdapter.setUserItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("userItemDetail", it)
+            }
+            navController.navigate(
+                    R.id.action_listFragment_to_detailFragment,
+                    bundle
+            )
+        }
     }
 
     private fun setupRecyclerView() {
@@ -103,35 +97,4 @@ class ListFragment : Fragment() {
             viewModel.getUser()
         }
     }
-
-/*
-    private fun setupUI(users: List<User>) {
-        ac_main_rv_users.layoutManager = LinearLayoutManager(this@MainActivity)
-        userAdapter = UserAdapter(users as ArrayList<User>)
-        ac_main_rv_users.adapter = userAdapter
-    }
-
-    private fun setupObservers() {
-        mainViewModel.getUsers().observe(this@MainActivity, {
-            it?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        ac_main_rv_users.visibility = View.VISIBLE
-                        ac_main_pb.visibility = View.GONE
-                        resource.data?.let { users -> setupUI(users) }
-                    }
-                    Status.ERROR -> {
-                        ac_main_rv_users.visibility = View.VISIBLE
-                        ac_main_pb.visibility = View.GONE
-                        Toast.makeText(this@MainActivity, it.message, Toast.LENGTH_LONG).show()
-                    }
-                    Status.LOADING -> {
-                        ac_main_rv_users.visibility = View.GONE
-                        ac_main_pb.visibility = View.VISIBLE
-                    }
-                }
-            }
-        })
-    }
-*/
 }

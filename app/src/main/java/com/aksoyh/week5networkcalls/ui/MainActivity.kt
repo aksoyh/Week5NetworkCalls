@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //setSupportActionBar(ac_ma_toolbar)
+        setSupportActionBar(ac_ma_toolbar)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         navController = Navigation.findNavController(this, R.id.ac_ma_nav_host_fragment)
@@ -51,7 +51,4 @@ class MainActivity : AppCompatActivity() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         ac_main_pb.visibility = View.GONE
     }
-
-
-
 }
