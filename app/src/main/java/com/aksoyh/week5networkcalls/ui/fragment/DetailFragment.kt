@@ -16,6 +16,11 @@ class DetailFragment : Fragment() {
     private val args: DetailFragmentArgs by navArgs()
     private lateinit var userItem: User
 
+    private lateinit var avatar: String
+    private lateinit var name: String
+    private lateinit var email: String
+    private lateinit var id: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,11 +33,22 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         userItem = args.userItemDetail
+        if (userItem != null) {
+            avatar = userItem.avatar
+            id = userItem.id
+            name = userItem.name
+            email = userItem.email
+        } else {
+            avatar = "https://www.google.com/imgres?imgurl=https%3A%2F%2Fgaleri7.uludagsozluk.com%2F245%2Fmarmara-kazim_503013.png&imgrefurl=https%3A%2F%2Fgaleri.uludagsozluk.com%2Fr%2Fmarmara-kaz%25C4%25B1m-503013%2F&tbnid=3fZQsKVtW8Fy6M&vet=10CBMQxiAoAmoXChMImJeBi_fQ8AIVAAAAAB0AAAAAEAY..i&docid=U1fYRuvdl5f2WM&w=633&h=353&itg=1&q=marmara%20kazım&client=opera&ved=0CBMQxiAoAmoXChMImJeBi_fQ8AIVAAAAAB0AAAAAEAY"
+            id = "0123456789"
+            name = "Hasan AKSOY"
+            email = "aksoy.android@gmail.com"
+        }
 
-        Glide.with(requireContext()).load(userItem.avatar).into(frDetailImageViewProfilePicture)
-        frDetailTextViewId.text = userItem.id
-        frDetailTextViewName.text = userItem.name
-        frDetailTextViewEmail.text = userItem.email
+        Glide.with(requireContext()).load(avatar).into(frDetailImageViewProfilePicture)
+        frDetailTextViewId.text = id
+        frDetailTextViewName.text = name
+        frDetailTextViewEmail.text = email
 
     }
 

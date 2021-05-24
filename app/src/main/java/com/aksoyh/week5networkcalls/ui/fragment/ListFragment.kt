@@ -1,6 +1,7 @@
 package com.aksoyh.week5networkcalls.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aksoyh.week5networkcalls.R
 import com.aksoyh.week5networkcalls.adapter.UserAdapter
 import com.aksoyh.week5networkcalls.data.model.User
-import com.aksoyh.week5networkcalls.data.repository.MainRepository
 import com.aksoyh.week5networkcalls.ui.MainActivity
 import com.aksoyh.week5networkcalls.ui.vm.MainViewModel
 import com.aksoyh.week5networkcalls.utils.Resource
-import com.aksoyh.week5networkcalls.utils.Status
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment : Fragment() {
 
@@ -48,8 +45,6 @@ class ListFragment : Fragment() {
 
         rvUsers = view.findViewById(R.id.fr_list_rv_users)
 
-        navController.navigate(R.id.action_listFragment_to_detailFragment)
-
         viewModel.userRes.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Loading -> {
@@ -70,6 +65,7 @@ class ListFragment : Fragment() {
                             userAdapter.differ.submitList(userResponse.toList())
                         } else {
                             // Data gelmedi ekranı göster
+                            //userList.addAll(response)
                         }
                     }
                 }

@@ -1,5 +1,6 @@
 package com.aksoyh.week5networkcalls.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     val differ = AsyncListDiffer(this, differCallback)
 
     override fun getItemCount(): Int {
+        Log.i("USER_SIZE", differ.currentList.size.toString())
         return differ.currentList.size
     }
 
