@@ -62,7 +62,8 @@ class ListFragment : Fragment() {
                     response.data?.let { userResponse ->
                         if (userResponse != null) {
                             // Veriler adapter içine set edilir.
-                            userAdapter.differ.submitList(userResponse.toList())
+                                val userList = userResponse.toList()
+                            userAdapter.differ.submitList(userList)
                         } else {
                             // Data gelmedi ekranı göster
                             //userList.addAll(response)

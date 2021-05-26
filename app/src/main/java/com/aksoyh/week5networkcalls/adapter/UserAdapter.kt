@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aksoyh.week5networkcalls.R
 import com.aksoyh.week5networkcalls.data.model.User
-import com.aksoyh.week5networkcalls.adapter.UserAdapter.UserViewHolder
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_layout.view.*
 

@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.*
 import com.aksoyh.week5networkcalls.UserApp
 import com.aksoyh.week5networkcalls.data.model.User
@@ -31,6 +32,7 @@ class MainViewModel(app: Application,
         try {
             if (hasInternetConnection()) {
                 val response = mainRepository.getUsers()
+                Log.i("USER_VM", response.toString())
                 userRes.postValue(handleGetUserResponse(response))
             } else {
                 userRes.postValue(Resource.Error("Lütfen internet bağlantınızı kontrol ediniz."))
