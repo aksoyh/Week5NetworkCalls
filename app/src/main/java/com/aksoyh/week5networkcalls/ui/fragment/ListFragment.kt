@@ -66,7 +66,6 @@ class ListFragment : Fragment() {
                             userAdapter.differ.submitList(userList)
                         } else {
                             // Data gelmedi ekranı göster
-                            //userList.addAll(response)
                         }
                     }
                 }
@@ -77,6 +76,7 @@ class ListFragment : Fragment() {
 
         userAdapter.setUserItemClickListener {
             val bundle = Bundle().apply {
+                Log.i("DetailItem", it.toString())
                 putSerializable("userItemDetail", it)
             }
             navController.navigate(
